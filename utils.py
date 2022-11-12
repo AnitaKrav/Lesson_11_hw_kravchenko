@@ -14,32 +14,37 @@ def load_candidates() -> List[dict]:
         return candidates
 
 
-def format_candidates(candidate: dict) -> str:
-    """
-    Форматирование строки вывода
-    """
-    result = '<pre>'
-    result += "Имя кандидата: " + candidate['name'] + '<br>'
-    result += "Позиция кандидата: " + candidate['position'] + '<br>'
-    result += "Навыки: " + candidate['skills'] + '<br>' * 2
-    result += '</pre'
-    return result
-
-
 def get_all_candidates() -> List[dict]:
     return load_candidates()
 
 
-def get_by_pk(pk):
+def get_by_id(id):
     """
-    Поиск кандидата с указанным pk
-    :param pk: pk
-    :return: данные кандидата,с заданным pk в формате dict
+    Поиск кандидата с указанным id
+    :param id: id
+    :return: данные кандидата,с заданным id в формате dict
     """
     for candidate in load_candidates():
-        if candidate['pk'] == pk:
+        if candidate['id'] == id:
             return candidate
 
+
+def get_candidates_by_name(candidate_name):
+    """
+    Поиск кандидатов по имени
+    :param candidate_name: искомое имя
+    :return: список кандидатов с указанным именем
+    """
+    candidates_by_name = []
+    candidates = load_candidates()
+    for candidate in candidates:
+        names_list = candidate['name'].split(" ")
+        # print(names_list)
+        for name in names_list:
+            if name.lower() == candidate_name.lower():
+                candidates_by_name.append(candidate)
+                break
+    return candidates_by_name
 
 def get_by_skill(skill_name):
     """
@@ -52,9 +57,10 @@ def get_by_skill(skill_name):
     for candidate in candidates:
         skills_list = candidate["skills"].split(", ")
         for skill in skills_list:
-            if skill == skill_name.lower():
+            if skill.lower() == skill_name.lower():
                 result.append(candidate)
+                break
     return result
 
 
-
+# print(get_candidates_by_name("adela"))
